@@ -84,5 +84,59 @@ if __name__ == '__main__':
     ### LISTEN TO PORT 4567
     eventlet.wsgi.server(eventlet.listen(('', 4567)), app)
 ```
+## Lane Detection
+The lane detection pipeline follows these steps:
 
-
+1) Pre-process image using grayscale and gaussian blur
+   ```
+   def prep_img(img):
+   image = mpimg.imread('test_images/solidYellowCurve2.jpg')
+   grayscaled = grayscale(image)
+   plt.imshow(grayscaled, cmap='gray')
+   return cv2.GaussianBlur(grayscaled, (kernel_size, kernel_size), 0)
+   ```
+2)  Canny Edge Detection
+    ```
+    def canny(img):
+    if img is None:
+        cap.release()
+        cv2.destroyAllWindows()
+        exit()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    kernel = 5
+    blur = cv2.GaussianBlur(gray,(kernel, kernel),0)
+    canny = cv2.Canny(gray, 50, 150)
+    return canny
+    ```
+    ![image](https://user-images.githubusercontent.com/64439578/125083279-ca3c1580-e0e5-11eb-8998-5c3ad588ef0b.png)
+3) Create the Region of interest:
+   ```
+   def region_of_interest(canny):
+    height = canny.shape[0]
+    width = canny.shape[1]
+    mask = np.zeros_like(canny)
+    triangle = np.array([[
+    (200, height),
+    (800, 350),
+    (1200, height),]], np.int32)
+    cv2.fillPoly(mask, triangle, 255)
+    masked_image = cv2.bitwise_and(canny, mask)
+    return masked_image
+    ```
+ 4) Hough Transform:
+    ```
+    def houghLines(cropped_canny):
+    return cv2.HoughLinesP(cropped_canny, 2, np.pi/180, 100, 
+        np.array([]), minLineLength=40, maxLineGap=5)
+     ```
+ 5) Display:
+    ```
+    def display_lines(img,lines):
+    line_image = np.zeros_like(img)
+    if lines is not None:
+        for line in lines:
+            for x1, y1, x2, y2 in line:
+                cv2.line(line_image,(x1,y1),(x2,y2),(0,0,255),10)
+    return line_image
+    ```
+To view the output please have a look at detector.mp4 as given in the repository     
