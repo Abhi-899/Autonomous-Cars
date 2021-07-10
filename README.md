@@ -141,4 +141,27 @@ The lane detection pipeline follows these steps:
                 cv2.line(line_image,(x1,y1),(x2,y2),(0,0,255),10)
     return line_image
     ```
-To view the output please have a look at detector.mp4 as given in the repository     
+To view the output please have a look at detector.mp4 as given in the repository.
+
+## Traffic signs recognition:
+### Dataset
+German Traffic Sign Recognition Dataset (GTSRB) is an image classification dataset.
+The images are photos of traffic signs. The images are classified into 43 classes. The training set contains 39209 labeled images and the test set contains 12630 images. Labels for the test set are not published. To look more into the citation please go to the following link:
+https://benchmark.ini.rub.de/gtsdb_news.html.
+
+### Model
+The model is designed as follows:
+```
+cnn_model = Sequential()
+cnn_model.add(Conv2D(32,3, 3, input_shape = image_shape, activation='relu'))
+cnn_model.add(MaxPooling2D(pool_size = (2, 2)))
+cnn_model.add(Flatten())
+cnn_model.add(Dense(output_dim = 32, activation = 'relu'))
+cnn_model.add(Dense(output_dim = 43, activation = 'sigmoid'))
+cnn_model.compile(loss ='sparse_categorical_crossentropy', optimizer=Adam(lr=0.001),metrics =['accuracy'])
+```
+### Model Evaluation
+We get a test accuracy of 0.8667
+The training validation and loss accuracy is plotted as follows:
+![image](https://user-images.githubusercontent.com/64439578/125156641-2190c300-e184-11eb-8f66-50b6b825a0be.png)
+
