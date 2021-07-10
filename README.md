@@ -20,6 +20,8 @@ able to steer a car on a road. Putting it another way, our network could be trai
 a real car on a real road, if enough data is provided. To give you an idea, Nvidia used 
 around 72 hours of video, at 10 frames per second. We can visualize the model as follows:
 ![image](https://user-images.githubusercontent.com/64439578/125081076-38330d80-e0e3-11eb-91d2-1654788ffa13.png)
+
+We have defined all the necessary funcyions in helper functions.py and import these functions to main.py whenever required.
 The testing code is given by Udacity itself and is as follows:
 ```
 print('Setting UP')
