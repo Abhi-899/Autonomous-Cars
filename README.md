@@ -165,3 +165,4 @@ We get a test accuracy of 0.8667
 The training validation and loss accuracy is plotted as follows:
 ![image](https://user-images.githubusercontent.com/64439578/125156641-2190c300-e184-11eb-8f66-50b6b825a0be.png)
 
+![image](https://user-images.githubusercontent.com/64439578/125156686-64eb3180-e184-11eb-9833-52a5f4f69df3.png)
